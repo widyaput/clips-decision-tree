@@ -77,11 +77,14 @@
 (defrule decision
     (dt (t ?attribute) (x $?x) (y ?attribute2) (z ?text) (v ?c))
     ?i <- (av (attribute counter) (value ?c2))
-    (av (attribute ?attribute) (value ?v))
+    ?j <- (av (attribute ?attribute) (value ?v))
+    ?k <- (question (attribute ?attribute) (text ?tex2))
     (test (check ?v (expand$ ?x)))
     (test (check ?c2 = ?c))
     =>
     (retract ?i)
+    (retract ?j)
+    (retract ?k)
     (assert (question (attribute ?attribute2)
                         (text ?text)))
     (assert (av (attribute counter) (value (+ ?c 1))))
@@ -91,11 +94,14 @@
 (defrule final-decision
     (fa (a ?attribute) (b $?b) (c ?final) (d ?c))
     ?i <- (av (attribute counter) (value ?c2))
-    (av (attribute ?attribute) (value ?v))
+    ?j <- (av (attribute ?attribute) (value ?v))
+    ?k <- (question (attribute ?attribute) (text ?tex2))
     (test (check ?v (expand$ ?b)))
     (test (check ?c2 = ?c))
     =>
     (retract ?i)
+    (retract ?j)
+    (retract ?k)
     (assert (final ?final))
     (assert (av (attribute counter) (value (+ ?c 1))))
 )
@@ -105,7 +111,7 @@
     (final ?final)
     (ans (i ?i) (j ?j))
     (test (check ?final = ?i))
-    => 
+    =>
     (format t ?text ?j)
 )
 
@@ -141,7 +147,7 @@
 )
 
 (deffacts final-answer
-    (fa (a worst_perimeter) (b > 114.45) (c 0) (d 1))
+    (fa (a worst_perimeter) (b > 114.45) (c 0) (d 2))
     (fa (a mean_texture) (b <= 16.19) (c 1) (d 3))
     (fa (a concave_points_error) (b <= 0.01) (c 0) (d 4))
     (fa (a concave_points_error) (b > 0.01) (c 1) (d 4))
